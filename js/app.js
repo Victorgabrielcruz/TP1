@@ -39,29 +39,51 @@ class GreenAlertApp {
                 this.showPage(page);
             });
         });
-
-        // Login/Register modals
+    
+        // Login/Register modals - Corrigido para usar event delegation
         document.getElementById('loginBtn').addEventListener('click', () => {
             const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
             loginModal.show();
         });
-
+    
         document.getElementById('registerBtn').addEventListener('click', () => {
             const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
             registerModal.show();
         });
-
-        // Form submissions
-        document.getElementById('login-form').addEventListener('submit', (e) => this.handleLogin(e));
-        document.getElementById('register-form').addEventListener('submit', (e) => this.handleRegister(e));
-        document.getElementById('report-form').addEventListener('submit', (e) => this.handleReportSubmit(e));
-
-        // Other interactive elements
-        document.getElementById('get-location-btn').addEventListener('click', () => this.getCurrentLocation());
-        document.getElementById('alert-radius').addEventListener('input', (e) => {
-            document.getElementById('radius-value').textContent = e.target.value + ' km';
+    
+        // Form submissions - Usar event delegation para forms que são renderizados dinamicamente
+        document.addEventListener('submit', (e) => {
+            if (e.target.id === 'login-form') {
+                e.preventDefault();
+                this.handleLogin(e);
+            } else if (e.target.id === 'register-form') {
+                e.preventDefault();
+                this.handleRegister(e);
+            } else if (e.target.id === 'report-form') {
+                e.preventDefault();
+                this.handleReportSubmit(e);
+            }
         });
-
+    
+        // Outros event listeners...
+        document.addEventListener('click', (e) => {
+            if (e.target.id === 'get-location-btn') {
+                this.getCurrentLocation();
+            }
+            
+            if (e.target.id === 'save-alert-settings') {
+                e.preventDefault();
+                this.saveAlertSettings();
+            }
+        });
+    
+        // Alert radius slider
+        document.addEventListener('input', (e) => {
+            if (e.target.id === 'alert-radius') {
+                document.getElementById('radius-value').textContent = e.target.value + ' km';
+            }
+        });
+    
         // Update user interface based on login state
         this.updateUI();
     }
@@ -135,7 +157,7 @@ class GreenAlertApp {
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="card">
                         <div class="card-header">
                             <h5 class="card-title mb-0"><i class="bi bi-exclamation-triangle"></i> Alertas Recentes</h5>
@@ -146,7 +168,7 @@ class GreenAlertApp {
                     </div>
                 </div>
             </div>
-            
+
             <div class="row mt-4">
                 <div class="col-12">
                     <div class="card">
@@ -189,8 +211,10 @@ class GreenAlertApp {
             </div>
         `;
 
-        // Initialize home map
-        MapManager.initHomeMap();
+        // Inicializar o mapa da home page com um pequeno delay para garantir que o DOM esteja pronto
+        setTimeout(() => {
+            MapManager.initHomeMap();
+        }, 100);
     }
 
     renderRecentAlerts() {
