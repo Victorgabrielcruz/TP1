@@ -182,3 +182,52 @@ body {
     color: #666;
     font-size: 0.9em;
 }
+/* Corrigir modal backdrop */
+.modal-backdrop {
+    z-index: 1040;
+}
+
+.modal {
+    z-index: 1050;
+}
+
+/* Garantir que o mapa na home page funcione */
+#home-map {
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* Corrigir z-index de elementos sobrepostos */
+.navbar {
+    z-index: 1030;
+}
+
+.leaflet-container {
+    z-index: 1;
+}
+
+/* Loading state para mapas */
+.map-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: #e9ecef;
+    border-radius: 10px;
+}
+
+/* Ajustes para modais */
+.modal-content {
+    border-radius: 10px;
+}
+
+.modal-header {
+    border-bottom: 1px solid #dee2e6;
+    border-radius: 10px 10px 0 0;
+}
+
+.modal-footer {
+    border-top: 1px solid #dee2e6;
+    border-radius: 0 0 10px 10px;
+}
